@@ -1,9 +1,8 @@
 from setuptools import setup, find_packages
-from siqc import __version__
 
 setup(
     name='siqc',
-    version='__version__',
+    version='0.0.3',
     author='Reardon, Fonville, Avants',
     author_email='areardon@invicro.com',
     description='siqc',
