@@ -1,11 +1,12 @@
-from setuptools import setup, find_packages
+from setuptools import setup
+from siqc import __version__
 
 setup(
     name='siqc',
-    version='0.0.2',
-    packages=find_packages(),
+    version='__version__',
     author='Reardon, Fonville, Avants',
     author_email='areardon@invicro.com',
     description='siqc',
     url='https://github.com/alex-reardon/siqc',
+    py_modules=['siqc']
 )
