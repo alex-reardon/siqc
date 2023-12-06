@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 from siqc import __version__
 
 setup(
@@ -8,5 +8,5 @@ setup(
     author_email='areardon@invicro.com',
     description='siqc',
     url='https://github.com/alex-reardon/siqc',
-    py_modules=['siqc']
+    packages=find_packages()
 )
