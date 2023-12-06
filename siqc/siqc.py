@@ -1,3 +1,6 @@
+def hello_world():
+    print("This is my first pip package!")
+
 import random
 import numpy as np
 import nibabel as nib
