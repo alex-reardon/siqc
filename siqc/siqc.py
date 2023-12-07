@@ -126,7 +126,8 @@ def add_noise(img, factor=2):
 
 def choose_function(img, function_name, file_path, output_bucket, output_prefix) : 
     n_images = int(input("Enter the number of output images you'd like to create : "))
-
+    out_imgs = []
+    out_names = []
     if function_name == 'remove_slices' :
         percentage_min = float(input("Enter the minimum slice percentage you'd like to remove: "))
         percentage_max = float(input("Enter the max slice percentagage you'd like to remove : "))
@@ -141,10 +142,10 @@ def choose_function(img, function_name, file_path, output_bucket, output_prefix)
         for i in range(n_images): 
             current_percentage = percentage_min + i * step_size
             out_img = remove_slices(img, current_percentage)
-            output_name = '_' + function_name + '_' + 'percentage=' + str(current_percentage) + '_' + 'pattern=' + str(pattern) + '_' + 'axis=' + str(axis) + '.nii.gz'
-            write_to_s3(file_path + output_name, out_img, output_bucket, output_prefix) 
-
-
+            out_imgs.append(out_img)
+            output_name = '_' + function_name + '_' + 'percentage=' + str(round(current_percentage,1)) + '_' + 'pattern=' + str(pattern) + '_' + 'axis=' + str(axis) + '.nii.gz'
+            out_names.append(output_name)
+            
     elif function_name == 'resize_vox' : 
         dimensions_min = input("Enter the minimum dimensions you'd like to resize to (Enter three numbers separated by a comma and enclosed in square brackets (e.g., [1, 1, 1])): ")
         dimensions_max = input("Enter the max dimensions  you'd like to resize to (Enter three numbers separated by a comma and enclosed in square brackets (e.g., [3, 3, 3]): ")
@@ -156,9 +157,9 @@ def choose_function(img, function_name, file_path, output_bucket, output_prefix)
         for i in range(n_images) : 
             current_dimensions = dimensions_min + i * step_size
             out_img = resize_vox(img, current_dimensions)
-            output_name = '_' + function_name + '_' + 'dimensions=' + str(current_dimensions) + '.nii.gz'
-            write_to_s3(file_path + output_name, out_img, output_bucket, output_prefix) 
-
+            out_imgs.append(out_img)
+            output_name = '_' + function_name + '_' + 'dimensions=' + str(round(current_dimensions,1)) + '.nii.gz'
+            out_names.append(output_name)
             
     elif function_name == 'rotate_img' : 
         rotate_min = float(input("Enter the minimum image rotation you'd like to apply: "))
@@ -174,9 +175,9 @@ def choose_function(img, function_name, file_path, output_bucket, output_prefix)
         for i in range(n_images) : 
             current_rotation = rotate_min + i * step_size
             out_img = rotate_img(img, current_rotation)
-            output_name = '_' + function_name + '-' + 'rotation_' + str(current_rotation) + '-' + 'affine_' + str(affine) + '-' + 'axis_' + str(axis) + '.nii.gz'
-            write_to_s3(file_path, out_img, output_bucket, output_prefix, output_name) 
-
+            out_imgs.append(out_img)
+            output_name = '_' + function_name + '-' + 'rotation_' + str(round(current_rotation,1)) + '-' + 'affine_' + str(affine) + '-' + 'axis_' + str(axis) + '.nii.gz'
+            out_names.append(output_name)
 
     elif function_name == 'add_noise' : 
         factor_min = float(input("Enter the minimum factor you'd like to apply: "))
@@ -185,8 +186,11 @@ def choose_function(img, function_name, file_path, output_bucket, output_prefix)
         for i in range(n_images) : 
             current_factor = factor_min + i * step_size
             out_img = rotate_img(img, current_factor)
-            output_name = '_' + function_name + '_' + 'factor=' + str(current_factor) + '.nii.gz'
-            write_to_s3(file_path, out_img, output_bucket, output_prefix, output_name) 
+            out_imgs.append(out_img)
+            output_name = '_' + function_name + '_' + 'factor=' + str(round(current_factor,1)) + '.nii.gz'
+            out_names.append(output_name)
+            
+    return out_imgs, out_names
 
 
 
@@ -236,4 +240,3 @@ def nrg(file_path, output_name) :
     object = split[4]
     full_path = project + '/' + subject + '/' + date + '/' + modality + '/' + object + '/' + remove_ext + output_name + '.nii.gz'
     return full_path
-
