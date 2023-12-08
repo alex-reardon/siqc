@@ -1,5 +1,5 @@
 
-from siqc import siqc
+import siqc
 
 
 def main() :
