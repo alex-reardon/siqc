@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='siqc',
-    version='0.0.4',
+    version='0.0.5',
     author='Reardon, Fonville, Avants',
     author_email='areardon@invicro.com',
     description='siqc',
